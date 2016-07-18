@@ -1,10 +1,11 @@
 import argparse
 
 
-def flask_argparse(app, default_host="127.0.0.1",
-             default_port="5000"):
+def flask_argparse(app,
+                   default_host="127.0.0.1",
+                   default_port="5000"):
     """
-    Takes a flask.Flask instance and runs it. Parses
+    Takes a flask.Flask instance and configures it. Parses
     command-line flags to configure the app.
     """
 
@@ -25,6 +26,7 @@ def flask_argparse(app, default_host="127.0.0.1",
     parser.add_argument("-l", "--location", help="Location", required=True)
     parser.add_argument("-st", "--step_limit", help="Steps", required=True)
     parser.add_argument("-d", "--debug", help="Debug Mode", action='store_true')
+    parser.add_argument("-c", "--china", help="Coord Transformer for China", action='store_true')
 
     parser.set_defaults(DEBUG=True)
 

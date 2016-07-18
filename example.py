@@ -27,7 +27,7 @@ import werkzeug.serving
 
 import pokemon_pb2
 
-from flaskrun import flask_argparse
+from parse_args import flask_argparse
 
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -55,9 +55,9 @@ deflat, deflng = 0, 0
 default_step = 0.001
 api_endpoint = None
 pokemons = []
-completed_percentage_str = None
 gyms = []
 pokestops = []
+completed_percentage_str = None
 numbertoteam = {0: "Gym", 1: "Mystic", 2: "Valor", 3: "Instinct"} # At least I'm pretty sure that's it. I could be wrong and then I'd be displaying the wrong owner team of gyms.
 
 
