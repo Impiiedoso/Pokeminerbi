@@ -464,7 +464,7 @@ def register_background_thread(initial_registration=False, app=None):
     global search_thread
 
     if initial_registration:
-        if not werkzeug.serving.is_running_from_reloader():
+        if app.args.debug and not werkzeug.serving.is_running_from_reloader():
             debug("register_background_thread: not running inside Flask so not starting thread")
             return
         if search_thread:
