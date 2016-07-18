@@ -18,6 +18,7 @@ from geopy.exc import GeocoderTimedOut, GeocoderServiceError
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from requests.adapters import ConnectionError
 from requests.models import InvalidURL
+from transform import *
 
 from flask import Flask, render_template
 from flask_googlemaps import GoogleMaps
@@ -418,6 +419,8 @@ def main(app=None):
                     if cell.Fort:
                         for Fort in cell.Fort:
                             if Fort.Enabled == True:
+                                if args.china:
+                                    Fort.Latitude, Fort.Longitude = transform_from_wgs_to_gcj(Location(Fort.Latitude, Fort.Longitude))
                                 if Fort.GymPoints:
                                     gyms.append([Fort.Team, Fort.Latitude, Fort.Longitude])
                                 elif Fort.FortType:
@@ -433,6 +436,8 @@ def main(app=None):
             time_to_hidden = poke.TimeTillHiddenMs
             left = '%d hours %d minutes %d seconds' % time_left(time_to_hidden)
             label = '<b>%s</b> [%s remaining]' % (pokemonsJSON[poke.pokemon.PokemonId - 1]['Name'], left)
+            if args.china:
+                poke.Latitude, poke.Longitude = transform_from_wgs_to_gcj(Location(poke.Latitude, poke.Longitude))
             pokemons.append([poke.pokemon.PokemonId, label, poke.Latitude, poke.Longitude])
 
         #Scan location math
