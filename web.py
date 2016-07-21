@@ -91,10 +91,25 @@ def config():
 
 @app.route('/')
 def fullmap():
+    markers = get_pokemarkers()
+    pokemons = {}
+    for marker in markers:
+        if marker['type'] != 'pokemon':
+            continue
+        key = marked['key']
+        if key not in pokemons:
+            pokemons[key] = {
+                'name': pokemon_names[str(key)],
+                'count': 0
+            }
+        pokemons[key]['count'] += 1
+    # Order pokemons by number
+    pokemons = sorted(pokemons.iteritems())
     return render_template(
         'example_fullmap.html',
         key=GOOGLEMAPS_KEY,
-        fullmap=get_map(),
+        fullmap=get_map(markers),
+        pokemons=pokemons,
         auto_refresh=auto_refresh
     )
 
@@ -174,13 +189,13 @@ def get_pokemarkers():
     return markers
 
 
-def get_map():
+def get_map(markers):
     fullmap = Map(
         identifier="fullmap2",
         style='height:100%;width:100%;top:0;left:0;position:absolute;z-index:200;',
         lat=origin_lat,
         lng=origin_lon,
-        markers=get_pokemarkers(),
+        markers=markers,
         zoom='15',
     )
     return fullmap

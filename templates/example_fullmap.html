@@ -20,6 +20,27 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}"></script> -->
 
+  <script>
+    window.pokemons = {{ pokemons|tojson|safe }};
+
+    function redrawDropdown () {
+        $('#pokemonChooser').delete();
+        $('body').append('<select id="pokemonChooser"></select>');
+        for (var i=0; i<window.pokemons.length; i++) {
+            var id = window.pokemons[i][0];
+            var pokemon = window.pokemons[i][1];
+            var name = '#' + id + ' ' + pokemon['name'] + ': ' + pokemon['count'];
+            $('#pokemonChooser').append('<option value="'+id+'">'+name+'</option>');
+        }
+        $('#pokemonChooser').on('change', function () {
+            console.log('hi!');
+        });
+    }
+    $(function(){
+        redrawDropdown();
+    });
+  </script>  
+
   <script type="text/javascript">
     var setLabelTime = function(){
         $('.label-countdown').each(function (index, element) {
@@ -52,7 +73,7 @@
 
   
   </script>
-  {% if auto_refresh %}
+  {% if 5 == 7 %}
     <script type="text/javascript">
         var baseURL = location.protocol + "//" + location.hostname + (location.port ? ":"+location.port: "");
         var options = {};
