@@ -5,6 +5,14 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <title>Flask Google Maps Full Map Example</title>
+
+            <style>
+                #pokemonChooser {
+                    position: absolute;
+                    z-index: 9999;
+                    bottom: 10px;
+                }
+            </style>
     </head>
     <body>
         <h1>Flask Google Maps Full Map Example</h1>
@@ -20,26 +28,28 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}"></script> -->
 
+  {% if pokemons %}
   <script>
-    window.pokemons = {{ pokemons|tojson|safe }};
+        window.pokemons = {{ pokemons|tojson|safe }};
 
-    function redrawDropdown () {
-        $('#pokemonChooser').delete();
-        $('body').append('<select id="pokemonChooser"></select>');
-        for (var i=0; i<window.pokemons.length; i++) {
-            var id = window.pokemons[i][0];
-            var pokemon = window.pokemons[i][1];
-            var name = '#' + id + ' ' + pokemon['name'] + ': ' + pokemon['count'];
-            $('#pokemonChooser').append('<option value="'+id+'">'+name+'</option>');
+        function redrawDropdown () {
+            $('#pokemonChooser').remove();
+            $('body').append('<select id="pokemonChooser"></select>');
+            for (var i=0; i<window.pokemons.length; i++) {
+                var id = window.pokemons[i][0];
+                var pokemon = window.pokemons[i][1];
+                var name = '#' + id + ' ' + pokemon['name'] + ': ' + pokemon['count'];
+                $('#pokemonChooser').append('<option value="'+id+'">'+name+'</option>');
+            }
+            $('#pokemonChooser').on('change', function () {
+                var number = $(this).val();
+            });
         }
-        $('#pokemonChooser').on('change', function () {
-            console.log('hi!');
+        $(function(){
+            redrawDropdown();
         });
-    }
-    $(function(){
-        redrawDropdown();
-    });
   </script>  
+  {% endif %}
 
   <script type="text/javascript">
     var setLabelTime = function(){
@@ -73,7 +83,6 @@
 
   
   </script>
-  {% if 5 == 7 %}
     <script type="text/javascript">
         var baseURL = location.protocol + "//" + location.hostname + (location.port ? ":"+location.port: "");
         var options = {};

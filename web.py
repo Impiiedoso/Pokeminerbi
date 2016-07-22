@@ -96,7 +96,7 @@ def fullmap():
     for marker in markers:
         if marker['type'] != 'pokemon':
             continue
-        key = marked['key']
+        key = marker['key']
         if key not in pokemons:
             pokemons[key] = {
                 'name': pokemon_names[str(key)],
@@ -160,7 +160,7 @@ def get_pokemarkers():
         dateoutput = datestr.strftime("%H:%M:%S")
 
         LABEL_TMPL = u'''
-<div><b>{name}</b><span> - </span><small><a href='http://www.pokemon.com/us/pokedex/{id}' target='_blank' title='View in Pokedex'>#{id}</a></small></div>
+<div data-pokemon-id="{id}"><b>{name}</b><span> - </span><small><a href='http://www.pokemon.com/us/pokedex/{id}' target='_blank' title='View in Pokedex'>#{id}</a></small></div>
 <div>Disappears at - {disappear_time_formatted} <span class='label-countdown' disappears-at='{disappear_time}'></span></div>
 <div><a href='https://www.google.com/maps/dir/Current+Location/{lat},{lng}' target='_blank' title='View in Maps'>Get Directions</a></div>
 '''
@@ -195,7 +195,7 @@ def get_map(markers):
         style='height:100%;width:100%;top:0;left:0;position:absolute;z-index:200;',
         lat=origin_lat,
         lng=origin_lon,
-        markers=markers,
+        markers=[],  # markers should be loaded via JS
         zoom='15',
     )
     return fullmap
