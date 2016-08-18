@@ -145,9 +145,11 @@ class Slave(threading.Thread):
                 logger.warning('Malformed response received!')
                 self.error_code = 'RESTART'
                 self.restart()
+                return
             except BannedAccount:
                 self.error_code = 'BANNED?'
                 self.restart(30, 90)
+                return
             except Exception:
                 logger.exception('A wild exception appeared!')
                 self.error_code = 'EXCEPTION'
@@ -299,7 +301,7 @@ class Slave(threading.Thread):
         """
         self.error_code = 'KILLED'
         self.running = False
-        
+
     def disable(self):
         """Marks worker as disabled"""
         self.error_code = 'DISABLED'
