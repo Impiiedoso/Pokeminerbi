@@ -98,7 +98,6 @@ class Slave(threading.Thread):
         self.error_code = None
 
         username, password, service = utils.get_worker_account(self.worker_no)
-        service = config.ACCOUNTS[self.worker_no][2]
         while True:
             try:
                 loginsuccess = self.api.login(
